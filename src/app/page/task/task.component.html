@@ -1,0 +1,13 @@
+<div class="task-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Task Management</mat-card-title>
+            <mat-card-subtitle>Use the form below to create a new task, and see the list of existing tasks.</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <app-create (taskCreated)="onTaskCreated()" (taskUpdated)="onTaskUpdated()"></app-create>
+            <hr style="margin: 2rem 0;">
+            <app-takslist (editRequest)="onEditRequest($event)" (taskDeleted)="onTaskDeleted()"></app-takslist>
+        </mat-card-content>
+    </mat-card>
+</div>

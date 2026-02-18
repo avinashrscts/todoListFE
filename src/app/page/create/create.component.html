@@ -1,0 +1,67 @@
+<h2>{{ editingTask ? 'Edit Task' : 'Create New Task' }}</h2>
+<form [formGroup]="taskForm" (ngSubmit)="onSubmit()" class="task-form">
+  <mat-form-field appearance="fill">
+    <mat-label>Name</mat-label>
+    <input matInput id="name" type="text" formControlName="name">
+    <mat-error *ngIf="taskForm.get('name')?.invalid && taskForm.get('name')?.touched">
+      Name is required.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Description</mat-label>
+    <textarea matInput id="description" formControlName="description"></textarea>
+    <mat-error *ngIf="taskForm.get('description')?.invalid && taskForm.get('description')?.touched">
+      Description is required.
+    </mat-error>
+  </mat-form-field>
+
+  <div class="date-row">
+    <mat-form-field appearance="fill">
+      <mat-label>Start Date</mat-label>
+      <input matInput [matDatepicker]="startDatePicker" id="startDate" formControlName="startDate">
+      <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #startDatePicker></mat-datepicker>
+      <mat-error *ngIf="taskForm.get('startDate')?.invalid && taskForm.get('startDate')?.touched">
+        Start Date is required.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>End Date</mat-label>
+      <input matInput [matDatepicker]="endDatePicker" id="endDate" formControlName="endDate">
+      <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #endDatePicker></mat-datepicker>
+      <mat-error *ngIf="taskForm.get('endDate')?.invalid && taskForm.get('endDate')?.touched">
+        End Date is required.
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <mat-error *ngIf="taskForm.errors?.['dateRangeInvalid'] && (taskForm.touched || taskForm.dirty)" style="font-size: 0.75rem; margin-top: -0.5rem; margin-bottom: 1rem; display: block;">
+    End Date must be greater than Start Date.
+  </mat-error>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Total Effort Required (hours)</mat-label>
+    <input matInput id="totalEffortRequired" type="number" formControlName="totalEffortRequired">
+    <mat-error *ngIf="taskForm.get('totalEffortRequired')?.invalid && taskForm.get('totalEffortRequired')?.touched">
+      Total Effort is required and must be a positive number.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Status</mat-label>
+    <mat-select id="status" formControlName="status">
+      <mat-option value="pending">Pending</mat-option>
+      <mat-option value="complete">Complete</mat-option>
+    </mat-select>
+    <mat-error *ngIf="taskForm.get('status')?.invalid && taskForm.get('status')?.touched">
+      Status is required.
+    </mat-error>
+  </mat-form-field>
+
+  <div class="form-actions">
+    <button mat-raised-button color="primary" type="submit" [disabled]="taskForm.invalid">{{ editingTask ? 'Update Task' : 'Create Task' }}</button>
+    <button mat-button type="button" *ngIf="editingTask" (click)="cancelEdit()">Cancel</button>
+  </div>
+</form>
